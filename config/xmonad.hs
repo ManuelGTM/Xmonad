@@ -1,18 +1,44 @@
 --Imports
 
 import XMonad
-import Data.Monoid
+import XMonad.ManageHook
 import System.Exit
+
+-- Utilities
+
 import XMonad.Util.SpawnOnce
 import XMonad.Util.Run
-import XMonad.Hooks.ManageDocks
-import XMonad.Layout.Spacing
-import qualified XMonad.StackSet as W
-import qualified Data.Map        as M
+import XMonad.Util.ClickableWorkspaces
 
--- The preferred terminal program, which is used in a binding below and by
--- certain contrib modules.
---
+--Hooks
+
+import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.StatusBar
+import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.StatusBar.PP
+import XMonad.Hooks.RefocusLast
+import XMonad.Hooks.SetWMName
+import XMonad.Hooks.WorkspaceHistory
+import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.ManageHelpers
+import XMonad.Hooks.ServerMode
+import XMonad.Hooks.SetWMName
+
+
+--Layouts
+
+import XMonad.Layout.Spacing
+import XMonad.Layout.ShowWName
+
+--Data 
+
+import qualified Data.Map        as M
+import Data.Monoid
+
+import qualified XMonad.StackSet as W
+
+
+
 myTerminal      = "alacritty"
 
 -- Whether focus follows the mouse pointer.
@@ -23,16 +49,21 @@ myFocusFollowsMouse = True
 myClickJustFocuses :: Bool
 myClickJustFocuses = False
 
--- Width of the window border in pixels.
---
-myBorderWidth   = 2 
-
--- modMask lets you specify which modkey you want to use. The default
--- is mod1Mask ("left alt").  You may also consider using mod3Mask
--- ("right alt"), which does not conflict with emacs keybindings. The
--- "windows key" is usually mod4Mask.
---
+myBorderWidth   = 2 -- Width of the window border in pixels.
+  
 myModMask       = mod4Mask
+
+myBrowser = "firefox" -- my current browser
+
+my editor = "nvim" -- my editor
+
+-- Border colors for unfocused and focused windows, respectively.
+myNormalBorderColor  = "#a153e1"
+myFocusedBorderColor = "#e93a3a"
+
+windowCount :: X (Maybe String)
+windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset
+
 
 -- The default number of workspaces (virtual screens) and their names.
 -- By default we use numeric strings, but any string may be used as a
@@ -45,12 +76,42 @@ myModMask       = mod4Mask
 --
 --myWorkspaces    = ["  󰲒  ","     ","    ","    ","  󰌠  ","   ","    ","   ","     "]
 
-myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
+-- Workspaces Icons (intento fallido)
+{-
+dev :: [String]
+dev = " <fn=1>\xf08c7</fn> "
 
--- Border colors for unfocused and focused windows, respectively.
---
-myNormalBorderColor  = "#a153e1"
-myFocusedBorderColor = "#e93a3a"
+www :: [String]
+www = " <fn=1>\xf269</fn>   "
+
+sys :: [String]
+sys = "  <fn=1>\xe706/fn>  "
+
+doc :: [String]
+doc = "  <fn=1>\xe5fe</fn>  "
+
+vbox:: [String]
+vbox = "  <fn=1>\xebca</fn>  "
+
+chat :: [String]
+chat = "  <fn=1>\xf0320</fn>  "
+
+mus :: [String]
+mus = "  <fn=1>\xe712</fn>  "
+
+vid :: [String]
+vid = "  <fn=1>\xea84</fn>  "
+
+gfx :: [String]
+gfx = "  <fn=1>\xe217</fn>  "
+
+-}
+
+myWorkspaces :: [String]
+--myWorkspaces    = [ dev, www, doc, sys, vbox, chat, mus, vid, gfx]
+
+myWorkspaces = ["dev ", " www ", " sys ", " doc ", " vbox ", " chat ", " mus ", " vid ", " gfx "]
+
 
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here.
@@ -179,8 +240,17 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 -- The available layouts.  Note that each layout is separated by |||,
 -- which denotes layout choice.
 --  
---
-  
+-- Themes for showWname wich prints current workspace when you chnaeg workspaces
+
+myShowWNameTheme :: SWNConfig
+myShowWNameTheme = def
+    { swn_font              = "xft:Sans:bold:size=60"
+    , swn_fade              = 1.0
+    , swn_bgcolor           = "#000000"
+    , swn_color             = "#FFFFFF"
+    }
+
+
 myLayout = spacingWithEdge 6 $ avoidStruts (tiled ||| Mirror tiled ||| Full)
   where
      -- default tiling algorithm partitions the screen into two panes
@@ -251,10 +321,42 @@ myStartupHook = do
 -- Now run xmonad with all the defaults we set up.
 
 -- Run xmonad with the settings you specify. No need to modify this.
+-- 
 --
 main = do
-  xmproc <- spawnPipe "xmobar -x 0 ~/.config/xmobar/xmobarrc"
-  xmonad $ docks defaults
+  xmproc <- spawnPipe "xmobar -x 0 ~/.config/xmobar/.xmobarrc"
+--  xmonad $ docks defaults
+
+  xmonad $ ewmh . docks $ defaults
+        { manageHook = ( isFullscreen --> doFullFloat ) <+> myManageHook <+> manageDocks
+        -- Run xmonad commands from command line with "xmonadctl command". Commands include:
+        -- shrink, expand, next-layout, default-layout, restart-wm, xterm, kill, refresh, run,
+        -- focus-up, focus-down, swap-up, swap-down, swap-master, sink, quit-wm. You can run
+        -- "xmonadctl 0" to generate full list of commands written to ~/.xsession-errors.
+        , handleEventHook    = serverModeEventHookCmd
+                               <+> serverModeEventHook
+                               <+> serverModeEventHookF "XMONAD_PRINT" (io . putStrLn)
+                            
+        , modMask            = myModMask
+        , terminal           = myTerminal
+        , startupHook        = myStartupHook
+        , layoutHook         = showWName' myShowWNameTheme myLayout                                        , workspaces         = myWorkspaces
+        , borderWidth        = myBorderWidth
+        , normalBorderColor  = myNormalBorderColor                                                         , focusedBorderColor = myFocusedBorderColor
+        , logHook = workspaceHistoryHook <+> myLogHook <+> dynamicLogWithPP xmobarPP
+                        { ppOutput = \x -> hPutStrLn xmproc x
+                        ,ppCurrent = xmobarColor "#c3e88d" "" . wrap "{ " " }" -- Current workspace in xmobar
+                        , ppVisible = xmobarColor "#c3e88d" ""                -- Visible but not current workspace
+                        , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" ""   -- Hidden workspaces in xmobar
+                        , ppHiddenNoWindows = xmobarColor "#F07178" ""        -- Hidden workspaces (no windows)
+                        , ppTitle = xmobarColor "#d0d0d0" "" . shorten 60     -- Title of active window in xmobar
+                        , ppSep =  "<fc=#666666> | </fc>"                     -- Separators in xmobar
+                        , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"  -- Urgent workspace
+                        , ppExtras  = [windowCount]   
+                        , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
+                        }
+        } 
+
  
 
 -- A structure containing your configuration settings, overriding
