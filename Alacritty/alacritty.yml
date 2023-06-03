@@ -5,13 +5,11 @@ window:
   class:
     instance: Alacritty
     general: Alacritty
-  opacity: 1 
-    
+  opacity: 0.85
 
 scrolling:
   history: 10000
   multiplier: 3
-
 
 font:
   normal:
@@ -26,36 +24,39 @@ font:
   bold_italic:
     family: Hack Nerd Font
     style: Bold Italic
-  syze: 7
+  size: 11
 draw_bold_text_with_bright_colors: true
 
 colors:
   # Default colors
   primary:
-    background: '#282c34'
-    foreground: '#ff6c6b'
+    background: "0x1a1b26"
+    foreground: "0xc0caf5"
 
   # Normal colors
   normal:
-    black:   '0x181a29'
-    red:     '0x93bbff'
-    green:   '0xcdea9f'
-    yellow:  '0xffd47e'
-    blue:    '0x93bbff'
-    magenta: '0xd3a7ee'
-    cyan:    '0x98e4ff'
-    white:   '0xbfd5de'
+    black: "0x15161e"
+    red: "0xf7768e"
+    green: "0x9ece6a"
+    yellow: "0xe0af68"
+    blue: "0x7aa2f7"
+    magenta: "0xbb9af7"
+    cyan: "0x7dcfff"
+    white: "0xa9b1d6"
 
   # Bright colors
   bright:
-    black:   '0x282a40'
-    red:     '0xeb7f84'
-    green:   '0xe0ffad'
-    yellow:  '0xffee7e'
-    blue:    '0xa3c5ff'
-    magenta: '0xd6afed'
-    cyan:    '0x98fffd'
-    white:   '0xd1e5ed'
+    black: "0x414868"
+    red: "0xf7768e"
+    green: "0x9ece6a"
+    yellow: "0xe0af68"
+    blue: "0x7aa2f7"
+    magenta: "0xbb9af7"
+    cyan: "0x7dcfff"
+    white: "0xc0caf5"
 
+  indexed_colors:
+    - { index: 16, color: "0xff9e64" }
+    - { index: 17, color: "0xdb4b4b" }
 
   program: /usr/bin/bash

@@ -4,6 +4,11 @@ import XMonad
 import XMonad.ManageHook
 import System.Exit
 
+--Actions
+ 
+import XMonad.Actions.CycleWS (moveTo, shiftTo, WSType(..), nextScreen, prevScreen)
+import XMonad.Actions.Plane
+
 -- Utilities
 
 import XMonad.Util.SpawnOnce
@@ -32,7 +37,7 @@ import XMonad.Layout.ShowWName
 
 --Data 
 
-import qualified Data.Map        as M
+import qualified Data.Map as M
 import Data.Monoid
 
 import qualified XMonad.StackSet as W
@@ -110,7 +115,7 @@ gfx = "  <fn=1>\xe217</fn>  "
 myWorkspaces :: [String]
 --myWorkspaces    = [ dev, www, doc, sys, vbox, chat, mus, vid, gfx]
 
-myWorkspaces = ["dev ", " www ", " sys ", " doc ", " vbox ", " chat ", " mus ", " vid ", " gfx "]
+myWorkspaces = ["dev", " www ", " sys ", " doc ", " vbox ", " chat ", " mus ", " vid ", " gfx "]
 
 
 ------------------------------------------------------------------------
@@ -174,8 +179,10 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     
     -- Deincrement the number of windows in the master area
     , ((modm              , xK_period), sendMessage (IncMasterN (-1)))
+    
+    
 
-    -- Toggle the status bar gap
+-- Toggle the status bar gap
     -- Use this binding with avoidStruts from Hooks.ManageDocks.
     -- See also the statusBar function from Hooks.DynamicLog.
     --
@@ -286,6 +293,9 @@ myManageHook = composeAll
     , resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore ]
 
+
+
+
 ------------------------------------------------------------------------
 -- Event handling
 
@@ -345,7 +355,7 @@ main = do
         , normalBorderColor  = myNormalBorderColor                                                         , focusedBorderColor = myFocusedBorderColor
         , logHook = workspaceHistoryHook <+> myLogHook <+> dynamicLogWithPP xmobarPP
                         { ppOutput = \x -> hPutStrLn xmproc x
-                        ,ppCurrent = xmobarColor "#c3e88d" "" . wrap "{ " " }" -- Current workspace in xmobar
+                        ,ppCurrent = xmobarColor "#c3e88d" "" . wrap "{ "" }" -- Current workspace in xmobar
                         , ppVisible = xmobarColor "#c3e88d" ""                -- Visible but not current workspace
                         , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" ""   -- Hidden workspaces in xmobar
                         , ppHiddenNoWindows = xmobarColor "#F07178" ""        -- Hidden workspaces (no windows)
@@ -355,8 +365,7 @@ main = do
                         , ppExtras  = [windowCount]   
                         , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
                         }
-        } 
-
+        }
  
 
 -- A structure containing your configuration settings, overriding
