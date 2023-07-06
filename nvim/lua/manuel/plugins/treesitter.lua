@@ -36,6 +36,7 @@ treesitter.setup({
 		"lua",
 		"python",
 		"haskell",
+		"rust",
 	},
 	-- auto install above language parsers
 	auto_install = true,

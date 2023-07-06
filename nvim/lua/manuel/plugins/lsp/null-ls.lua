@@ -18,6 +18,7 @@ null_ls.setup({
 		--  to disable file types use
 		--  "formatting.prettier.with({disabled_filetypes = {}})" (see null-ls docs)
 		formatting.prettier, -- js/ts formattes ss s
+		formatting.rustfmt,
 		formatting.stylua,
 		diagnostics.cpplint,
 		diagnostics.pylint,
