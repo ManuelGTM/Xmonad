@@ -1,36 +1,47 @@
 window:
+  opacity: 0.4
   padding:
-    x: 5
-    y: 5
+    x: 6
+    y: 6
+    title: Alacritty
+    dynamic_padding: false
+    decorations: none
   class:
     instance: Alacritty
     general: Alacritty
-  opacity: 0.85
 
 scrolling:
   history: 10000
-  multiplier: 3
+  multiplier: 5
 
 font:
   normal:
-    family: Hack Nerd Font
+    family: Mononoki Nerd Font
+    # family: JetBrains Mono
     style: Regular
   italic:
-    family: Hack Nerd Font
+    family:
+      Mononoki Nerd Font
+      # family: JetBrains Mono
     style: Italic
   bold:
-    family: Hack Nerd Font
+    family:
+      Mononoki Nerd Font
+      # family: JetBrains Mono
     style: Bold
   bold_italic:
-    family: Hack Nerd Font
+    family:
+      Mononoki Nerd Font
+      # family: JetBrains Mono
     style: Bold Italic
-  size: 11
+  size: 12
 draw_bold_text_with_bright_colors: true
 
 colors:
   # Default colors
   primary:
-    background: "0x1a1b26"
+    background: "0x28282B"
+    # background: "0x000000"
     foreground: "0xc0caf5"
 
   # Normal colors

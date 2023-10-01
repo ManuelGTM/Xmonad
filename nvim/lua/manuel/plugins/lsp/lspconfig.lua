@@ -17,7 +17,7 @@ if not typescript_setup then
 end
 
 -- import typescript plugin safely
-local python_setup, pyhton = pcall(require, "python-lsp-server")
+local python_setup, pylsp = pcall(require, "pylsp")
 if not typescript_setup then
 	return
 end

@@ -72,8 +72,9 @@ myBrowser = "firefox" -- my current browser
 myeditor = "nvim" -- my editor
 
 -- Border colors for unfocused and focused windows, respectively.
-myNormalBorderColor  = "#a153e1"
-myFocusedBorderColor = "#e93a3a"
+-- myNormalBorderColor  = "#a153e1"
+myNormalBorderColor  = "#C21e56"
+myFocusedBorderColor = "#cd7f32"
 
 windowCount :: X (Maybe String)
 windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset
@@ -243,6 +244,7 @@ myLogHook = return ()
 myStartupHook = do
         spawnOnce "mpv --no-video ~/.config/sounds/yoooo.mp3"
         spawnOnce "nitrogen --restore &" 
+        spawnOnce "picom"
 
 main :: IO ()
 main = do
@@ -263,7 +265,7 @@ main = do
         , focusedBorderColor = myFocusedBorderColor
         , logHook = workspaceHistoryHook <+> myLogHook <+> dynamicLogWithPP xmobarPP
                         { ppOutput = \x -> hPutStrLn xmproc x
-                        ,ppCurrent = xmobarColor "#c3e88d" "" . wrap "[ "" ]" -- Current workspace in xmobar
+                        ,ppCurrent = xmobarColor "#c3e88d" "" . wrap "["  "]" -- Current workspace in xmobar
                         , ppVisible = xmobarColor "#c3s88d" ""                -- Visible but not current workspace
                         , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" ""   -- Hidden workspaces in xmobar
                         , ppHiddenNoWindows = xmobarColor "#F07178" ""        -- Hidden workspaces (no windows)

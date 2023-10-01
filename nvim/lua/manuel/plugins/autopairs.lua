@@ -11,9 +11,6 @@ autopairs.setup({
 		lua = { "string" }, -- don't add pairs in lua string treesitter nodes
 		javascript = { "template_string" }, -- don't add pairs in javscript template_string treesitter nodes
 		java = false, -- don't check treesitter on java
-		rust = true,
-		python = true,
-		clang = true,
 	},
 })
 

@@ -28,12 +28,17 @@ return packer.startup(function(use)
 	-- packer can manage itself
 	use("wbthomason/packer.nvim")
 
+	use("theprimeagen/harpoon")
+
 	--color shemes
 
 	use("bluz71/vim-nightfly-guicolors")
 	use("folke/tokyonight.nvim")
+	use("rebelot/kanagawa.nvim")
+	use({ "catppuccin/nvim", as = "catppuccin" })
 
-	use("nvim-lua/plenary.nvim") -- lua functions that many plugins use
+	-- lua functions that many plugins use
+	use("nvim-lua/plenary.nvim")
 
 	-- essential plugins
 	use("tpope/vim-surround") -- add, delete, change :surroundings (it's awesome)
