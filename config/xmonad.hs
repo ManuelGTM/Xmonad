@@ -83,8 +83,7 @@ windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace
 -- My Workspaces --
 
 myWorkspaces :: [String]
-
-myWorkspaces = ["dev", " www ", " sys ", " doc ", " vbox ", " chat ", " mus ", " vid ", " gfx "]
+myWorkspaces = [" dev ", " www ", " sys ", " doc ", " vbox ", " chat ", " mus ", " vid ", " gfx "]
 
 ------------------------------------------------------------------------
 -- Named Actions --
@@ -128,17 +127,19 @@ myKeys c =
     ,("M-t",  addName "launch the terminal"   $ spawn $ myTerminal)  -- launch a terminal
 
      -- Applications Keybindings
-    ,("M-b",  addName "launch browser"  $ spawn "firefox")           -- launch browser
+    ,("M-b",  addName "launch browser"  $ spawn "brave")           -- launch browser
+    ,("M-o",  addName "launch browser"  $ spawn "spotify-launcher")           -- launch spotify-launcher
     ,("M-p",  addName "launch rofi"     $ spawn "rofi -show run")    -- launch rofi
     ,("M-d",  addName "launch emacs"    $ spawn "emacs")             --launch emacs
 
       --Multimedia keybindings
-    , ("<XF86AudioMute>",         addName "Mute the audio"    $ spawn "pactl set-sink-mute 3 toggle")
-    , ("<XF86AudioLowerVolume>",  addName "Low the volume"    $ spawn "pactl set-sink-volume 3 -10%")
-    , ("<XF86AudioRaiseVolume>",  addName "Raise the volume"  $ spawn "pactl set-sink-volume 3 +10%")
+    , ("M-l",         addName "Mute the audio"    $ spawn "pamixer --mute")
+    , ("M-S-l",         addName "Unmute the audio"    $ spawn "pamixer --unmute")
+    , ("M-S-u",  addName "Low the volume"    $ spawn "pamixer --decrease 10")
+    , ("M-u",  addName "Raise the volume"  $ spawn "pamixer --increase 10")
    
       -- Windows keybindings
-    ,("M-q",        addName "kill focused windows"                        $ kill)                                 -- kill focused windows
+    ,("M-q",        addName "kill focused windows"                        $ spawn "mpv --no-video ~/.config/sounds/KillWindow.flac" >> kill)                                 -- kill focused windows
     ,("M-<Space>",  addName "Rotate through layouts"                      $ sendMessage NextLayout)               -- Rotate through layouts
     ,("M-y",        addName "Resize windows to correct size"              $ refresh)                              -- Resize windows to correct size
     ,("M-m",        addName "Minimize window"                             $ withFocused minimizeWindow)           -- Minimize window
@@ -147,8 +148,8 @@ myKeys c =
 
     -- Xmonad keybindings
 
-    , ("M-S-q",     addName "Quit Xmonad"                   $ io (exitWith ExitSuccess))                       -- Quit xmonad 
-    , ("M-f",       addName "Restart and recompile Xmonad"  $ spawn "xmonad --recompile; xmonad --restart")]   -- Restart xmonad
+    , ("M-S-q",     addName "Quit Xmonad"                   $ spawn "mpv --no-video ~/.config/sounds/BrowserSound.flac" >> io (exitWith ExitSuccess))                       -- Quit xmonad 
+    , ("M-f",       addName "Restart and recompile Xmonad"  $ spawn "xmonad --recompile;xmonad --restart")]   -- Restart xmonad
       
     ^++^ subKeys "Switch to workspace"
     [ ("M-1", addName "Switch to workspace 1"    $ (windows $ W.greedyView $ myWorkspaces !! 0))
@@ -242,9 +243,10 @@ myLogHook = return ()
 -- Starup hook --
 
 myStartupHook = do
-        spawnOnce "mpv --no-video ~/.config/sounds/yoooo.mp3"
+        spawnOnce "pamixer --set-volume 60 &"
+        spawnOnce "mpv --no-video ~/.config/sounds/ps1-startup.mp3 &"
         spawnOnce "nitrogen --restore &" 
-        spawnOnce "picom"
+        spawnOnce "picom &"
 
 main :: IO ()
 main = do
@@ -265,12 +267,12 @@ main = do
         , focusedBorderColor = myFocusedBorderColor
         , logHook = workspaceHistoryHook <+> myLogHook <+> dynamicLogWithPP xmobarPP
                         { ppOutput = \x -> hPutStrLn xmproc x
-                        ,ppCurrent = xmobarColor "#c3e88d" "" . wrap "["  "]" -- Current workspace in xmobar
-                        , ppVisible = xmobarColor "#c3s88d" ""                -- Visible but not current workspace
-                        , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" ""   -- Hidden workspaces in xmobar
-                        , ppHiddenNoWindows = xmobarColor "#F07178" ""        -- Hidden workspaces (no windows)
+                        ,ppCurrent = xmobarColor "#cd7f32" "" . wrap "["  "]" -- Current workspace in xmobar
+                        , ppVisible = xmobarColor "#ffbf00" ""                -- Visible but not current workspace
+                        , ppHidden = xmobarColor "#eedc82" "" . wrap "*" ""   -- Hidden workspaces in xmobar
+                        , ppHiddenNoWindows = xmobarColor "#f0ffff" ""        -- Hidden workspaces (no windows)
                         , ppTitle = xmobarColor "#d0d0d0" "" . shorten 60     -- Title of active window in xmobar
-                        , ppSep =  "<fc=#666666> | </fc>"                     -- Separators in xmobar
+                        , ppSep =  "<fc=#7393b3>  || </fc> "                     -- Separators in xmobar
                         , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"  -- Urgent workspace
                         , ppExtras  = [windowCount]   
                         , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
