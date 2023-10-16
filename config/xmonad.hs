@@ -1,4 +1,4 @@
--- Imports --
+
 
 import XMonad
 import XMonad.ManageHook
@@ -111,67 +111,67 @@ myKeys c =
   subKeys "Xmonad Essentials" 
 
     -- Windows navigation
-    [("M-s",         addName "Move focus to next window"                              $ windows W.focusDown)                -- Move focus to the next window
-    , ("M-n",        addName "Move focus to previous window"                          $ windows W.focusUp)                  -- Move focus to the previous window
+    [("M-s",         addName "Move focus to next window"                              $ windows W.focusDown>> spawn "mpv --no-video ~/.config/sounds/M_UI_00000038.flac")              -- Move focus to the next window
+    , ("M-n",        addName "Move focus to previous window"                          $ windows W.focusUp>> spawn "mpv --no-video ~/.config/sounds/M_UI_00000038.flac")                 -- Move focus to the previous window
     , ("M-g",        addName "Move focus to master"                                   $ windows W.focusMaster)              -- Move focus to the master window
     , ("M-<Return>", addName "Swap the focus window and the master window"            $ windows W.swapMaster)               -- Swap the focused window and the master window
-    , ("M-S-s",      addName "Swap the focused window with the next window"           $ windows W.swapDown)                 --  Swap the focused window with the next window
-    , ("M-S-n",      addName "Swap the focused window with the previous window"       $ windows W.swapUp)                   -- Swap the focused window with the previous window
-    , ("M-k",        addName "Shrink the master area"                                 $ sendMessage Shrink)                 -- Shrink the master area
-    , ("M-h",        addName "Expand the master area"                                 $ sendMessage Expand)                 -- Expand the master area
+    , ("M-S-s",      addName "Swap the focused window with the next window"           $ windows W.swapDown >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000039.flac")                 --  Swap the focused window with the next window
+    , ("M-S-n",      addName "Swap the focused window with the previous window"       $ windows W.swapUp >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000039.flac")                   -- Swap the focused window with the previous window
+    , ("M-k",        addName "Shrink the master area"                                 $ sendMessage Shrink >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000038.flac")                 -- Shrink the master area
+    , ("M-h",        addName "Expand the master area"                                 $ sendMessage Expand >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000038.flac")                 -- Shrink the master area                 -- Expand the master area
     , ("M-w",        addName "Push window back into tiling"                           $ withFocused $ windows . W.sink)     -- Push window back into tiling
     , ("M-<Comma>",  addName "Increment the number of windows in the master area"     $ sendMessage (IncMasterN 1))         -- Increment the number of windows in the master area
     , ("M-<Period>", addName "Deincrement the number of windows in the master area"   $ sendMessage (IncMasterN (-1)))      -- Deincrement the number of windows in the master area
 
      -- Terminal keybindings 
-    ,("M-t",  addName "launch the terminal"   $ spawn $ myTerminal)  -- launch a terminal
+    ,("M-t",  addName "launch the terminal"   $ spawn "mpv --no-video ~/.config/sounds/M_UI_00000040.flac" >> spawn myTerminal)  -- launch a terminal
 
      -- Applications Keybindings
-    ,("M-b",  addName "launch browser"  $ spawn "brave")           -- launch browser
+    ,("M-b",  addName "launch browser"  $ spawn "firefox" >> spawn "mpv --no-video ~/.config/sounds/M_UI_0000001B.flac")           -- launch browser
     ,("M-o",  addName "launch browser"  $ spawn "spotify-launcher")           -- launch spotify-launcher
-    ,("M-p",  addName "launch rofi"     $ spawn "rofi -show run")    -- launch rofi
+    ,("M-p",  addName "launch rofi"     $ spawn "rofi -show run" >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000038.flac")     -- launch rofi
     ,("M-d",  addName "launch emacs"    $ spawn "emacs")             --launch emacs
 
       --Multimedia keybindings
-    , ("M-l",         addName "Mute the audio"    $ spawn "pamixer --mute")
-    , ("M-S-l",         addName "Unmute the audio"    $ spawn "pamixer --unmute")
-    , ("M-S-u",  addName "Low the volume"    $ spawn "pamixer --decrease 10")
-    , ("M-u",  addName "Raise the volume"  $ spawn "pamixer --increase 10")
-   
+    , ("M-l",    addName "Mute the audio"    $ spawn "pamixer --mute")
+    , ("M-S-l",  addName "Unmute the audio"  $ spawn "pamixer --unmute")  -- unmute volume
+    , ("M-S-u",  addName "Low the volume"    $ spawn "pamixer --decrease 5" >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000038.flac")  -- Lower volume 
+    , ("M-u",    addName "Raise the volume"  $ spawn "pamixer --increase 5">> spawn "mpv --no-video ~/.config/sounds/M_UI_00000038.flac")   -- Raise volume 
+
       -- Windows keybindings
-    ,("M-q",        addName "kill focused windows"                        $ spawn "mpv --no-video ~/.config/sounds/KillWindow.flac" >> kill)                                 -- kill focused windows
-    ,("M-<Space>",  addName "Rotate through layouts"                      $ sendMessage NextLayout)               -- Rotate through layouts
+    ,("M-q",        addName "kill focused windows"                        $ spawn "mpv --no-video ~/.config/sounds/M_UI_0000000E.flac" >> kill)                                 -- kill focused windows
+    ,("M-<Space>",  addName "Rotate through layouts"                      $ sendMessage NextLayout >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000039.flac")               -- Rotate through layouts
     ,("M-y",        addName "Resize windows to correct size"              $ refresh)                              -- Resize windows to correct size
-    ,("M-m",        addName "Minimize window"                             $ withFocused minimizeWindow)           -- Minimize window
-    , ("M-S-m",     addName "Maximize window"                             $ withLastMinimized maximizeWindow)     -- Maximize window
+    ,("M-m",        addName "Minimize window"                             $ withFocused minimizeWindow >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000018.flac")       -- Minimize window
+    , ("M-S-m",     addName "Maximize window"                             $ withLastMinimized maximizeWindow >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000018.flac")     -- Maximize window
     , ("M-z",       addName "Avoid Struts (helps with the bar overflow)"  $ sendMessage ToggleStruts)             -- avoid struts
 
     -- Xmonad keybindings
 
-    , ("M-S-q",     addName "Quit Xmonad"                   $ spawn "mpv --no-video ~/.config/sounds/BrowserSound.flac" >> io (exitWith ExitSuccess))                       -- Quit xmonad 
-    , ("M-f",       addName "Restart and recompile Xmonad"  $ spawn "xmonad --recompile;xmonad --restart")]   -- Restart xmonad
+    , ("M-S-q",     addName "Quit Xmonad"                   $ io (exitWith ExitSuccess))                       -- Quit xmonad 
+    , ("M-f",       addName "Restart and recompile Xmonad"  $ spawn "xmonad --recompile;xmonad --restart" >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000025.flac") ]   -- Restart xmonad
       
     ^++^ subKeys "Switch to workspace"
-    [ ("M-1", addName "Switch to workspace 1"    $ (windows $ W.greedyView $ myWorkspaces !! 0))
-    , ("M-2", addName "Switch to workspace 2"    $ (windows $ W.greedyView $ myWorkspaces !! 1))
-    , ("M-3", addName "Switch to workspace 3"    $ (windows $ W.greedyView $ myWorkspaces !! 2))
-    , ("M-4", addName "Switch to workspace 4"    $ (windows $ W.greedyView $ myWorkspaces !! 3))
-    , ("M-5", addName "Switch to workspace 5"    $ (windows $ W.greedyView $ myWorkspaces !! 4))
-    , ("M-6", addName "Switch to workspace 6"    $ (windows $ W.greedyView $ myWorkspaces !! 5))
-    , ("M-7", addName "Switch to workspace 7"    $ (windows $ W.greedyView $ myWorkspaces !! 6))
-    , ("M-8", addName "Switch to workspace 8"    $ (windows $ W.greedyView $ myWorkspaces !! 7))
-    , ("M-9", addName "Switch to workspace 9"    $ (windows $ W.greedyView $ myWorkspaces !! 8))]
+    [ ("M-1", addName "Switch to workspace 1"    $ (windows $ W.greedyView $ myWorkspaces !! 0) >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000050.flac") 
+    , ("M-2", addName "Switch to workspace 2"    $ (windows $ W.greedyView $ myWorkspaces !! 1) >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000050.flac")
+    , ("M-3", addName "Switch to workspace 3"    $ (windows $ W.greedyView $ myWorkspaces !! 2) >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000050.flac")
+    , ("M-4", addName "Switch to workspace 4"    $ (windows $ W.greedyView $ myWorkspaces !! 3) >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000050.flac")
+    , ("M-5", addName "Switch to workspace 5"    $ (windows $ W.greedyView $ myWorkspaces !! 4) >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000050.flac")
+    , ("M-6", addName "Switch to workspace 6"    $ (windows $ W.greedyView $ myWorkspaces !! 5) >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000050.flac")
+    , ("M-7", addName "Switch to workspace 7"    $ (windows $ W.greedyView $ myWorkspaces !! 6) >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000050.flac")
+    , ("M-8", addName "Switch to workspace 8"    $ (windows $ W.greedyView $ myWorkspaces !! 7) >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000050.flac")
+    , ("M-9", addName "Switch to workspace 9"    $ (windows $ W.greedyView $ myWorkspaces !! 8) >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000050.flac")]
 
     ^++^ subKeys "Send window to workspace"
-    [ ("M-S-1", addName "Send to workspace 1"    $ (windows $ W.shift $ myWorkspaces !! 0))
-    , ("M-S-2", addName "Send to workspace 2"    $ (windows $ W.shift $ myWorkspaces !! 1))
-    , ("M-S-3", addName "Send to workspace 3"    $ (windows $ W.shift $ myWorkspaces !! 2))
-    , ("M-S-4", addName "Send to workspace 4"    $ (windows $ W.shift $ myWorkspaces !! 3))
-    , ("M-S-5", addName "Send to workspace 5"    $ (windows $ W.shift $ myWorkspaces !! 4))
-    , ("M-S-6", addName "Send to workspace 6"    $ (windows $ W.shift $ myWorkspaces !! 5))
-    , ("M-S-7", addName "Send to workspace 7"    $ (windows $ W.shift $ myWorkspaces !! 6))
-    , ("M-S-8", addName "Send to workspace 8"    $ (windows $ W.shift $ myWorkspaces !! 7))
-    , ("M-S-9", addName "Send to workspace 9"    $ (windows $ W.shift $ myWorkspaces !! 8))]
+    [ ("M-S-1", addName "Send to workspace 1"    $ (windows $ W.shift $ myWorkspaces !! 0) >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000018.flac") 
+    , ("M-S-2", addName "Send to workspace 2"    $ (windows $ W.shift $ myWorkspaces !! 1) >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000018.flac") 
+    , ("M-S-3", addName "Send to workspace 3"    $ (windows $ W.shift $ myWorkspaces !! 2) >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000018.flac") 
+    , ("M-S-4", addName "Send to workspace 4"    $ (windows $ W.shift $ myWorkspaces !! 3) >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000018.flac") 
+    , ("M-S-5", addName "Send to workspace 5"    $ (windows $ W.shift $ myWorkspaces !! 4) >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000018.flac") 
+    , ("M-S-6", addName "Send to workspace 6"    $ (windows $ W.shift $ myWorkspaces !! 5) >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000018.flac") 
+    , ("M-S-7", addName "Send to workspace 7"    $ (windows $ W.shift $ myWorkspaces !! 6) >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000018.flac") 
+    , ("M-S-8", addName "Send to workspace 8"    $ (windows $ W.shift $ myWorkspaces !! 7) >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000018.flac") 
+    , ("M-S-9", addName "Send to workspace 9"    $ (windows $ W.shift $ myWorkspaces !! 8) >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000018.flac")]
    
       
 ------------------------------------------------------------------------
@@ -244,7 +244,7 @@ myLogHook = return ()
 
 myStartupHook = do
         spawnOnce "pamixer --set-volume 60 &"
-        spawnOnce "mpv --no-video ~/.config/sounds/ps1-startup.mp3 &"
+        spawnOnce "mpv --no-video ~/.config/sounds/BOTW_Startup.wav &"
         spawnOnce "nitrogen --restore &" 
         spawnOnce "picom &"
 
