@@ -1,5 +1,3 @@
-
-
 import XMonad
 import XMonad.ManageHook
 import System.Exit

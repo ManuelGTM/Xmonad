@@ -1,5 +1,5 @@
 return {
-"numToStr/Comment.nvim",
+  "lewis6991/gitsigns.nvim",
   event = { "BufReadPre", "BufNewFile" },
-  config = true
+  config = true,
 }

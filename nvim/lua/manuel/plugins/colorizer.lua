@@ -1,5 +1,5 @@
 return {
-"numToStr/Comment.nvim",
+  "NvChad/nvim-colorizer.lua",
   event = { "BufReadPre", "BufNewFile" },
-  config = true
+  config = true,
 }
