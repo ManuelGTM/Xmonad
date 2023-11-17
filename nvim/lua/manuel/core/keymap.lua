@@ -6,6 +6,7 @@ local keymap = vim.keymap -- for cocisness
 
 keymap.set("n", "<leader>s", ":w<cr>")
 keymap.set("n", "<leader>q", ":wq<cr>")
+keymap.set("n", "<leader>dd", ":DBUIToggle<cr>")
 keymap.set("n", "<C-u>", "<C-u>zz")
 keymap.set("n", "<C-d>", "<C-d>zz")
 
