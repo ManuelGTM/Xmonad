@@ -1,11 +1,6 @@
 return {
 
 	{
-		-- "rose-pine/neovim",
-		-- require("lazy").setup({
-		-- 	{ "rose-pine/neovim", name = "rose-pine" },
-		-- }),
-
 		"folke/tokyonight.nvim",
 		priority = 1000, -- make sure to load this before all the other start plugins
 		config = function()
