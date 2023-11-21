@@ -10,35 +10,37 @@ if status is-interactive
       set -l yellow (set_color -o e0af68)
       set -l Orange (set_color -o ff9e64)
       set -g red (set_color -o f7768e)
+      set -g Bred (set_color -o f77a93)
       set -g blue (set_color -o 008080)
-      set -l green (set_color -o 9ece6a)
+      set -l green (set_color -o b9f27c)
       set -l purple (set_color -o 9d7cd8)
-      set -g normal (set_color -o C0C0C0) 
+      set -l magenta (set_color -o bb9af7)
+      set -g normal (set_color -o acb0d0) 
 
       set -l ahead (_git_ahead)
       set -g whitespace ' '
 
-      if test $last_status = 0
-        set initial_indicator "$green◆"
-        set status_indicator "$normal❯$cyan❯$yellow❯"
+      if test $last_status = 0 
+        set initial_indicator "$green◆$magenta  "
+        set status_indicator "$purple❯$Orange❯$cyan❯"
       else
         set initial_indicator "$red✖ $last_status"
         set status_indicator "$red❯$red❯$red❯"
       end
-      set -l cwd $Orange(basename (prompt_pwd))
+      set -l cwd $cyan(basename (prompt_pwd))
 
       if [ (_git_branch_name) ]
 
         if test (_git_branch_name) = 'master'
           set -l git_branch (_git_branch_name)
-          set git_info "$normal git:($red$git_branch$normal)"
+          set git_info "$green git:($red$git_branch$green)"
         else
           set -l git_branch (_git_branch_name)
-          set git_info "$normal git:($blue$git_branch$normal)"
+          set git_info "$green git:($magenta$git_branch$green)"
         end
 
         if [ (_is_git_dirty) ]
-          set -l dirty "$yellow ✗"
+          set -l dirty "$red ✗"
           set git_info "$git_info$dirty"
         end
       end
