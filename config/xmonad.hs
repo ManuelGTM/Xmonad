@@ -1,3 +1,5 @@
+-- Xmonad
+
 import XMonad
 import XMonad.ManageHook
 import System.Exit
@@ -8,6 +10,7 @@ import System.IO(hClose,hPutStr,hPutStrLn)
 import XMonad.Actions.CycleWS (moveTo, shiftTo, WSType(..), nextScreen, prevScreen)
 import XMonad.Actions.Plane
 import XMonad.Actions.Minimize
+import XMonad.Actions.SpawnOn
 
 -- Utilities --
 
@@ -71,8 +74,9 @@ myeditor = "nvim" -- my editor
 
 -- Border colors for unfocused and focused windows, respectively.
 -- myNormalBorderColor  = "#a153e1"
-myNormalBorderColor  = "#C21e56"
-myFocusedBorderColor = "#cd7f32"
+-- myNormalBorderColor  = "#cd7f32"
+myNormalBorderColor  = "#483248"
+myFocusedBorderColor = "#C21e56"
 
 windowCount :: X (Maybe String)
 windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset
@@ -81,7 +85,9 @@ windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace
 -- My Workspaces --
 
 myWorkspaces :: [String]
-myWorkspaces = [" dev ", " www ", " sys ", " doc ", " vbox ", " chat ", " mus ", " vid ", " gfx "]
+-- myWorkspaces = [" dev ", " www ", " sys ", " docs ", " vbox ", " chat ", " mus ", " vid ", " gfx "]
+myWorkspaces = [" \xe61f ", " \xe658 ", " \xf489 ", " \xe5fb ", " \xe606 ", " \xe65d ", " \xe64d ", " \xf31b ", " \xf0e7b "]
+
 
 ------------------------------------------------------------------------
 -- Named Actions --
@@ -94,7 +100,7 @@ subtitle' x = ((0,0), NamedAction $ map toUpper
 
 showKeybindings :: [((KeyMask, KeySym), NamedAction)] -> NamedAction
 showKeybindings x = addName "Show Keybindings" $ io $ do
-  h <- spawnPipe $ "yad --text-info --fontname=\"SauceCodePro Nerd Font Mono 12\" --fore=#46d9ff back=#282c36 --center --geometry=1200x800 --title \"XMonad keybindings\""
+  h <- spawnPipe $ "yad --text-info --fontname=\"Mononoki Nerd Font 12\" --fore=#46d9ff back=#282c36 --center --geometry=1200x800 --title \"XMonad keybindings\""
 
   hPutStr h (unlines $ showKmSimple x) -- showKmSimple doesn't add ">>" to subtitles
   hClose h
@@ -118,17 +124,20 @@ myKeys c =
     , ("M-k",        addName "Shrink the master area"                                 $ sendMessage Shrink >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000038.flac")                 -- Shrink the master area
     , ("M-h",        addName "Expand the master area"                                 $ sendMessage Expand >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000038.flac")                 -- Shrink the master area                 -- Expand the master area
     , ("M-w",        addName "Push window back into tiling"                           $ withFocused $ windows . W.sink)     -- Push window back into tiling
-    , ("M-<Comma>",  addName "Increment the number of windows in the master area"     $ sendMessage (IncMasterN 1))         -- Increment the number of windows in the master area
-    , ("M-<Period>", addName "Deincrement the number of windows in the master area"   $ sendMessage (IncMasterN (-1)))      -- Deincrement the number of windows in the master area
+    , ("M-y",  addName "Increment the number of windows in the master area"     $ sendMessage (IncMasterN 1))         -- Increment the number of windows in the master area
+    , ("M-S-y", addName "Deincrement the number of windows in the master area"   $ sendMessage (IncMasterN (-1)))      -- Deincrement the number of windows in the master area
 
      -- Terminal keybindings 
     ,("M-t",  addName "launch the terminal"   $ spawn "mpv --no-video ~/.config/sounds/M_UI_00000040.flac" >> spawn myTerminal)  -- launch a terminal
 
      -- Applications Keybindings
     ,("M-b",  addName "launch browser"  $ spawn "firefox" >> spawn "mpv --no-video ~/.config/sounds/M_UI_0000001B.flac")           -- launch browser
-    ,("M-o",  addName "launch browser"  $ spawn "spotify-launcher")           -- launch spotify-launcher
+
+    ,("M-o",  addName "launch spotify"  $ spawn "spotify-launcher" >> spawn "mpv --no-video ~/.config/sounds/M_UI_0000001B.flac")           -- launch spotify-launcher
+    ,("M-S-o",  addName "launch obsidian"  $ spawn "obsidian" >> spawn "mpv --no-video ~/.config/sounds/M_UI_0000001B.flac")           -- launch spotify-launcher
+    ,("M-S-i",  addName "launch postman"  $ spawn (myTerminal ++ " -e ./Postman.sh") >> spawn "mpv --no-video ~/.config/sounds/M_UI_0000001B.flac")           -- launch spotify-launcher
     ,("M-p",  addName "launch rofi"     $ spawn "rofi -show run" >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000038.flac")     -- launch rofi
-    ,("M-d",  addName "launch emacs"    $ spawn "emacs")             --launch emacs
+    -- ,("M-d",  addName "launch emacs"   $ spawn "emacs")             --launch emacs
 
       --Multimedia keybindings
     , ("M-l",    addName "Mute the audio"    $ spawn "pamixer --mute")
@@ -139,7 +148,7 @@ myKeys c =
       -- Windows keybindings
     ,("M-q",        addName "kill focused windows"                        $ spawn "mpv --no-video ~/.config/sounds/M_UI_0000000E.flac" >> kill)                                 -- kill focused windows
     ,("M-<Space>",  addName "Rotate through layouts"                      $ sendMessage NextLayout >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000039.flac")               -- Rotate through layouts
-    ,("M-y",        addName "Resize windows to correct size"              $ refresh)                              -- Resize windows to correct size
+    -- ,("M-S-y",        addName "Resize windows to correct size"              $ refresh)                              -- Resize windows to correct size
     ,("M-m",        addName "Minimize window"                             $ withFocused minimizeWindow >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000018.flac")       -- Minimize window
     , ("M-S-m",     addName "Maximize window"                             $ withLastMinimized maximizeWindow >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000018.flac")     -- Maximize window
     , ("M-z",       addName "Avoid Struts (helps with the bar overflow)"  $ sendMessage ToggleStruts)             -- avoid struts
@@ -222,7 +231,7 @@ myLayout = spacingWithEdge 6 $ avoidStruts (tiled ||| Mirror tiled ||| Full)
 -- Window Rules --
 
 myManageHook = composeAll
-    [ className =? "MPlayer"        --> doFloat
+    [ className =? "alacritty"        --> doShift " dev "
     , className =? "Gimp"           --> doFloat
     , resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore ]
@@ -240,11 +249,13 @@ myLogHook = return ()
 --------------------------------------------------------------------------------------
 -- Starup hook --
 
+myStartupHook :: X ()
 myStartupHook = do
         spawnOnce "pamixer --set-volume 60 &"
         spawnOnce "mpv --no-video ~/.config/sounds/BOTW_Startup.wav &"
         spawnOnce "nitrogen --restore &" 
         spawnOnce "picom &"
+
 
 main :: IO ()
 main = do
@@ -258,22 +269,22 @@ main = do
         , modMask            = myModMask
         , terminal           = myTerminal
         , startupHook        = myStartupHook
-        , layoutHook         = minimize . BW.boringWindows $ showWName' myShowWNameTheme myLayout                                        
+        , layoutHook         = minimize . BW.boringWindows  $ showWName' myShowWNameTheme $ myLayout                                        
         , workspaces         = myWorkspaces
         , borderWidth        = myBorderWidth
         , normalBorderColor  = myNormalBorderColor                                                         
         , focusedBorderColor = myFocusedBorderColor
         , logHook = workspaceHistoryHook <+> myLogHook <+> dynamicLogWithPP xmobarPP
                         { ppOutput = \x -> hPutStrLn xmproc x
-                        ,ppCurrent = xmobarColor "#cd7f32" "" . wrap "["  "]" -- Current workspace in xmobar
+                        ,ppCurrent = xmobarColor "#7CFC00" "" . wrap ""  "" -- Current workspace in xmobar
                         , ppVisible = xmobarColor "#ffbf00" ""                -- Visible but not current workspace
-                        , ppHidden = xmobarColor "#eedc82" "" . wrap "*" ""   -- Hidden workspaces in xmobar
-                        , ppHiddenNoWindows = xmobarColor "#f0ffff" ""        -- Hidden workspaces (no windows)
+                        , ppHidden = xmobarColor "#32CD32" "" . wrap "*" "_"   -- Hidden workspaces in xmobar
+                        , ppHiddenNoWindows = xmobarColor "#4F7942" ""        -- Hidden workspaces (no windows)
                         , ppTitle = xmobarColor "#d0d0d0" "" . shorten 60     -- Title of active window in xmobar
-                        , ppSep =  "<fc=#7393b3>  || </fc> "                     -- Separators in xmobar
+                        , ppSep =  "<fc=#7393b3> || </fc> "                     -- Separators in xmobar
                         , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"  -- Urgent workspace
                         , ppExtras  = [windowCount]   
                         , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
-                        }
+                         }
         } 
  
