@@ -1,8 +1,56 @@
 if status is-interactive
    
+    #--------------------------------------------------------
     # Commands to run in interactive sessions can go here
     set fish_greeting
+    #--------------------------------------------------------
     
+    #--------------------------------------------------------
+    # Themes and fonts colors
+    #--------------------------------------------------------
+
+   # TokyoNight Color Palette
+    set -l foreground c0caf5
+    set -l selection 283457
+    set -l comment 565f89
+    set -l red f7768e
+    set -l orange ff9e64
+    set -l yellow e0af68
+    set -l green 9ece6a
+    set -l purple 9d7cd8
+    set -l cyan 7dcfff
+    set -l pink bb9af7
+
+
+    # Syntax Highlighting Colors
+    set -g fish_color_normal $foreground
+    set -g fish_color_command $cyan
+    set -g fish_color_keyword $pink
+    set -g fish_color_quote $yellow
+    set -g fish_color_redirection $green
+    set -g fish_color_end $orange
+    set -g fish_color_error $red
+    set -g fish_color_param $green
+    set -g fish_color_comment $comment
+    set -g fish_color_selection --background=$selection
+    set -g fish_color_search_match --background=$selection
+    set -g fish_color_operator $purple
+    set -g fish_color_valid_path $green
+    set -g fish_color_escape $pink
+    set -g fish_color_autosuggestion $comment
+    set -g fish_color_cancel $yellow
+
+    # Completion Pager Colors
+    set -g fish_pager_color_progress $comment
+    set -g fish_pager_color_prefix $cyan
+    set -g fish_pager_color_completion $foreground
+    set -g fish_pager_color_description $comment
+    set -g fish_pager_color_selected_background --background=$selection
+
+    #--------------------------------------------------------
+    # Shasimi prompt integration
+    #--------------------------------------------------------
+
     # Sashimi prompt
     function fish_prompt
       set -l last_status $status
@@ -15,6 +63,7 @@ if status is-interactive
       set -l green (set_color -o b9f27c)
       set -l purple (set_color -o 9d7cd8)
       set -l magenta (set_color -o bb9af7)
+      set -l white (set_color -o ffffff)
       set -g normal (set_color -o acb0d0) 
 
       set -l ahead (_git_ahead)
@@ -46,7 +95,7 @@ if status is-interactive
       end
 
       # Notify if a command took more than 5 minutes
-      if [ "$CMD_DURATION" -gt 300000 ]
+      if [ "$CMD_DURATION" -gt 30000 ]
         echo The last command took (math "$CMD_DURATION/1000") seconds.
       end
 
@@ -82,53 +131,43 @@ if status is-interactive
     end
     
     #end prompt
-    
+   
+    #--------------------------------------------------------
+    # Vim Functionality 
+    #--------------------------------------------------------
+
     #function to set vim keybindings
     function fish_user_key_bindings
         fish_vi_key_bindings
     end
     #end vim keybindings
+
+    #--------------------------------------------------------
+    # Functionality Tweaks
+    #--------------------------------------------------------
+
+    #abbreviations Linux Mint
     
-   # TokyoNight Color Palette
-    set -l foreground c0caf5
-    set -l selection 283457
-    set -l comment 565f89
-    set -l red f7768e
-    set -l orange ff9e64
-    set -l yellow e0af68
-    set -l green 9ece6a
-    set -l purple 9d7cd8
-    set -l cyan 7dcfff
-    set -l pink bb9af7
+    # abbr Si "sudo apt install"
+    # abbr Su "nala upgrade"
 
-    # Syntax Highlighting Colors
-    set -g fish_color_normal $foreground
-    set -g fish_color_command $cyan
-    set -g fish_color_keyword $pink
-    set -g fish_color_quote $yellow
-    set -g fish_color_redirection $green
-    set -g fish_color_end $orange
-    set -g fish_color_error $red
-    set -g fish_color_param $green
-    set -g fish_color_comment $comment
-    set -g fish_color_selection --background=$selection
-    set -g fish_color_search_match --background=$selection
-    set -g fish_color_operator $purple
-    set -g fish_color_valid_path $green
-    set -g fish_color_escape $pink
-    set -g fish_color_autosuggestion $comment
-    set -g fish_color_cancel $yellow
+    #abbreviations Arch Linux 
+    
+    # abbr Si "sudo pacman -S"
+    # abbr Su "sudo pacman -Syyu"
+
+    #--------------------------------------------------------
 
 
-    # Completion Pager Colors
-    set -g fish_pager_color_progress $comment
-    set -g fish_pager_color_prefix $cyan
-    set -g fish_pager_color_completion $foreground
-    set -g fish_pager_color_description $comment
-    set -g fish_pager_color_selected_background --background=$selection
 
-    #
+    #--------------------------------------------------------
 
-    # Activates Neofetch
-    neofetch
+    # ~/.tmux/plugins
+    fish_add_path $HOME/.tmux/plugins/t-smart-tmux-session-manager/bin
+    
+   # Activates Neofetch
+    #neofetch
+
+    #zoxide
+    zoxide init fish | source
 end
