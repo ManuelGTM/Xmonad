@@ -20,8 +20,7 @@ return {
 				graphql = { "prettier" },
 				lua = { "stylua" },
 				rust = { "rustfmt" },
-				sql = { "sqlfmt" },
-				-- c = { "clang-format" },
+				c = { "clang-format" },
 			},
 			format_on_save = {
 				lsp_fallback = true,

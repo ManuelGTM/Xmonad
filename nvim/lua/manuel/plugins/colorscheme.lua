@@ -1,6 +1,11 @@
 return {
 
 	{
+		-- "rose-pine/neovim",
+		-- require("lazy").setup({
+		-- 	{ "rose-pine/neovim", name = "rose-pine" },
+		-- }),
+
 		"folke/tokyonight.nvim",
 		priority = 1000, -- make sure to load this before all the other start plugins
 		config = function()
@@ -8,10 +13,9 @@ return {
 				style = "storm",
 			})
 			-- load the colorscheme here
-			vim.cmd([[colorscheme tokyonight-moon]])
+			vim.cmd([[colorscheme tokyonight]])
 		end,
 	},
-	vim.api.nvim_set_hl(0, "lineNr", { fg = "orange" }),
 }
 
 --transparent color settings

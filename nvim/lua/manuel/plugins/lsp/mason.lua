@@ -31,13 +31,17 @@ return {
 				"html",
 				"cssls",
 				"tailwindcss",
+				"svelte",
 				"lua_ls",
+				"graphql",
 				"emmet_ls",
+				"prismals",
 				"pyright",
 				"clangd",
 				"rust_analyzer",
 				"dockerls",
 				"bashls",
+				"gopls",
 				"sqlls",
 			},
 			-- auto-install configured servers (with lspconfig)
@@ -49,7 +53,6 @@ return {
 				"prettier", -- prettier formatter
 				"stylua", -- lua formatter
 				"eslint_d", -- js linter
-				"sqlfmt", -- js linter
 			},
 		})
 	end,

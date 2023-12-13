@@ -6,9 +6,14 @@ local keymap = vim.keymap -- for cocisness
 
 keymap.set("n", "<leader>s", ":w<cr>")
 keymap.set("n", "<leader>q", ":wq<cr>")
-keymap.set("n", "<leader>dd", ":DBUIToggle<cr>")
 keymap.set("n", "<C-u>", "<C-u>zz")
 keymap.set("n", "<C-d>", "<C-d>zz")
+
+-- Bash script (make the file executable)
+keymap.set("n", "<leader>fx", ":!chmod +x %<CR>")
+
+-- Web Dev
+keymap.set("n", "<leader>fi", ":!firefox %<CR>")
 
 -- visual keybindings
 
@@ -21,3 +26,9 @@ keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>") -- find string in 
 keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>") -- find string under cursor in current working directory
 keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>") -- list open buffers in current neovim instance
 keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>") -- list available help tags
+
+-- Database
+keymap.set("n", "<leader>dd", ":DBUIToggle<cr>")
+
+--Lazy Nvim
+keymap.set("n", "<leader>f", ":Lazy<cr>") -- find files within current working directory, respects .gitignore

@@ -42,7 +42,6 @@ return {
 					"python",
 					"rust",
 					"commonlisp",
-					"sql",
 				},
 				incremental_selection = {
 					enable = true,

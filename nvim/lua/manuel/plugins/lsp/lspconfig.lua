@@ -8,6 +8,7 @@ return {
 	config = function()
 		-- import lspconfig plugin
 		local lspconfig = require("lspconfig")
+		local util = require("lspconfig/util")
 
 		-- import cmp-nvim-lsp plugin
 		local cmp_nvim_lsp = require("cmp_nvim_lsp")
@@ -76,6 +77,12 @@ return {
 			on_attach = on_attach,
 		})
 
+		-- configure typescript server with plugin
+		lspconfig["tsserver"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+		})
+
 		-- configure css server
 		lspconfig["cssls"].setup({
 			capabilities = capabilities,
@@ -84,19 +91,6 @@ return {
 
 		-- configure tailwindcss server
 		lspconfig["tailwindcss"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
-
-		-- configure typescript server with plugin
-		lspconfig["tsserver"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
-
-		-- configure tailwindcss server
-		require("lspconfig")["hls"].setup({
-			filetypes = { "haskell", "lhaskell", "cabal" },
 			capabilities = capabilities,
 			on_attach = on_attach,
 		})
@@ -144,21 +138,6 @@ return {
 			on_attach = on_attach,
 		})
 
-		-- configure angular server
-		lspconfig["angularls"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
-
-		-- configure sql server
-		require("lspconfig").sqlls.setup({
-			capabilities = capabilities,
-			filetypes = { "sql", "mysql", "plsql" },
-			root_dir = function(_)
-				return vim.loop.cwd()
-			end,
-		})
-
 		-- configure Rust server
 		lspconfig["rust_analyzer"].setup({
 			capabilities = capabilities,
@@ -172,7 +151,25 @@ return {
 				},
 			},
 		})
-		-- configure C server
+
+		--configure Go server
+		lspconfig.gopls.setup({
+			on_attach = on_attach,
+			capabilities = capabilities,
+			cmd = { "gopls" },
+			filetypes = { "go", "gomod", "gowork", "gotmpl" },
+			root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+			settings = {
+				gopls = {
+					completeUnimported = true,
+					usePlaceholders = true,
+					analyses = {
+						unusedparams = true,
+					},
+				},
+			},
+		})
+
 		require("lspconfig").clangd.setup({
 			on_attach = on_attach,
 			capabilities = cmp_nvim_lsp.default_capabilities(),
@@ -182,6 +179,18 @@ return {
 			},
 		})
 
+		-- bash Server
+		vim.api.nvim_create_autocmd("FileType", {
+			pattern = "sh",
+			callback = function()
+				vim.lsp.start({
+					name = "bash-language-server",
+					cmd = { "bash-language-server", "start" },
+				})
+			end,
+		})
+
+		-- Docker Server
 		lspconfig["dockerls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,

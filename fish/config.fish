@@ -146,15 +146,13 @@ if status is-interactive
     # Functionality Tweaks
     #--------------------------------------------------------
 
-    #abbreviations Linux Mint
+    #abbreviations
     
-    # abbr Si "sudo apt install"
-    # abbr Su "nala upgrade"
-
-    #abbreviations Arch Linux 
-    
-    # abbr Si "sudo pacman -S"
-    # abbr Su "sudo pacman -Syyu"
+    abbr Si "sudo apt install" # Install something
+    abbr Su "nala upgrade"  # Upgrade the system
+    abbr tmn "tmux new -s"  # Create a new session tmux
+    abbr tma "tmux attach -t" # Attach to a session tmux
+    abbr gc "gcc .c -o .out" # Compile C language
 
     #--------------------------------------------------------
 
