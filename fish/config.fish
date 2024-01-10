@@ -2,8 +2,10 @@ if status is-interactive
    
     #--------------------------------------------------------
     # Commands to run in interactive sessions can go here
-    set fish_greeting
     #--------------------------------------------------------
+
+    set fish_greeting
+
     
     #--------------------------------------------------------
     # Themes and fonts colors
@@ -142,22 +144,40 @@ if status is-interactive
     end
     #end vim keybindings
 
+ 
     #--------------------------------------------------------
-    # Functionality Tweaks
+    # System abbreviations
     #--------------------------------------------------------
 
-    #abbreviations
-    
-    abbr Si "sudo apt install" # Install something
-    abbr Su "nala upgrade"  # Upgrade the system
+    abbr Si "sudo pamac install" # Install software
+    abbr Sr "sudo pamac remove"   # Uninstall some software 
+    abbr Su "sudo pamac upgrade"  # Upgrade the system
+    abbr Sd "sudo shutdown now" # Shutdown now
+
+    #--------------------------------------------------------
+    # Useful command abbreviations
+    #--------------------------------------------------------
+
     abbr tmn "tmux new -s"  # Create a new session tmux
     abbr tma "tmux attach -t" # Attach to a session tmux
     abbr gc "gcc .c -o .out" # Compile C language
+    abbr ls "exa"
+    abbr ll "exa -alh"
+    abbr tree "exa -tree"
+    abbr cd "z"
+    abbr cat "bat"
 
     #--------------------------------------------------------
+    #Application startup abbreviations
+    #--------------------------------------------------------
 
+    abbr music "z /run/media/manueltgtm/Music"
+    abbr calendar "khal calendar"
+    abbr office "onlyoffice"
+    abbr postgres "sudo psql -U  -d  -h 127.0.0.1"
 
-
+    #--------------------------------------------------------
+    # Functionality Tweaks
     #--------------------------------------------------------
 
     # ~/.tmux/plugins
