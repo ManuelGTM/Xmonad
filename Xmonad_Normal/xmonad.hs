@@ -86,6 +86,7 @@ windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace
 
 myWorkspaces :: [String]
 -- myWorkspaces = [" dev ", " www ", " sys ", " docs ", " vbox ", " chat ", " mus ", " vid ", " gfx "]
+-- myWorkspaces = [" ス ", " 二 ", " 三 ", " シ", " 五 ", " フ ", " ン ", "八 ", " 九"]
 myWorkspaces = [" \xe61f ", " \xe658 ", " \xf489 ", " \xe5fb ", " \xe606 ", " \xe65d ", " \xe64d ", " \xf31b ", " \xf0e7b "]
 
 
@@ -135,8 +136,9 @@ myKeys c =
 
     ,("M-o",  addName "launch spotify"  $ spawn "spotify-launcher" >> spawn "mpv --no-video ~/.config/sounds/M_UI_0000001B.flac")           -- launch spotify-launcher
     ,("M-S-o",  addName "launch obsidian"  $ spawn "obsidian" >> spawn "mpv --no-video ~/.config/sounds/M_UI_0000001B.flac")           -- launch spotify-launcher
-    ,("M-S-i",  addName "launch postman"  $ spawn (myTerminal ++ " -e ./Postman.sh") >> spawn "mpv --no-video ~/.config/sounds/M_UI_0000001B.flac")           -- launch spotify-launcher
-    ,("M-p",  addName "launch rofi"     $ spawn "rofi -show run" >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000038.flac")     -- launch rofi
+    ,("M-S-i",  addName "launch postman"  $ spawn (myTerminal ++ " -e postman") >> spawn "mpv --no-video ~/.config/sounds/M_UI_0000001B.flac")           -- launch spotify-launcher
+    ,("M-S-p",  addName "Make ScreenShot"  $ spawn (myTerminal ++ " -e scrot ~/ScreenShots/") >> spawn "mpv --no-video ~/.config/sounds/M_UI_0000001B.flac")           -- launch spotify-launcher
+    ,("M-p",  addName "launch rofi"     $ spawn "rofi -show drun" >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000038.flac")     -- launch rofi
     -- ,("M-d",  addName "launch emacs"   $ spawn "emacs")             --launch emacs
 
       --Multimedia keybindings
@@ -278,7 +280,7 @@ main = do
                         { ppOutput = \x -> hPutStrLn xmproc x
                         ,ppCurrent = xmobarColor "#7CFC00" "" . wrap ""  "" -- Current workspace in xmobar
                         , ppVisible = xmobarColor "#ffbf00" ""                -- Visible but not current workspace
-                        , ppHidden = xmobarColor "#32CD32" "" . wrap "*" "_"   -- Hidden workspaces in xmobar
+                        , ppHidden = xmobarColor "#32CD32" "" . wrap "*" ""   -- Hidden workspaces in xmobar
                         , ppHiddenNoWindows = xmobarColor "#4F7942" ""        -- Hidden workspaces (no windows)
                         , ppTitle = xmobarColor "#d0d0d0" "" . shorten 60     -- Title of active window in xmobar
                         , ppSep =  "<fc=#7393b3> || </fc> "                     -- Separators in xmobar

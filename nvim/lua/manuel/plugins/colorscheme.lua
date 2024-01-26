@@ -1,25 +1,29 @@
 return {
-
 	{
-		-- "rose-pine/neovim",
-		-- require("lazy").setup({
-		-- 	{ "rose-pine/neovim", name = "rose-pine" },
-		-- }),
-
-		"folke/tokyonight.nvim",
+		"catppuccin/nvim",
 		priority = 1000, -- make sure to load this before all the other start plugins
 		config = function()
-			require("tokyonight").setup({
-				style = "storm",
+			require("catppuccin").setup({
+				flavour = "mocha",
+				background = {
+					dark = "mocha",
+				},
 			})
 			-- load the colorscheme here
-			vim.cmd([[colorscheme tokyonight]])
+			vim.cmd([[colorscheme catppuccin]])
 		end,
 	},
 }
-
---transparent color settings
--- vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
--- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
---end,
+-- 	{
+--
+-- 		"folke/tokyonight.nvim",
+-- 		priority = 1000, -- make sure to load this before all the other start plugins
+-- 		config = function()
+-- 			require("tokyonight").setup({
+-- 				style = "storm",
+-- 			})
+-- 			-- load the colorscheme here
+-- 			vim.cmd([[colorscheme tokyonight]])
+-- 		end,
+-- 	},
 -- }

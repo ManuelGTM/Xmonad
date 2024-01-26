@@ -23,10 +23,17 @@ return {
 	end,
 	opts = {
 		-- add any options here
+		background_colour = "#1e1e2e",
 	},
 	dependencies = {
 
 		"MunifTanjim/nui.nvim",
 		"rcarriga/nvim-notify",
 	},
+	config2 = function(_, opts)
+		require("notify").setup(vim.tbl_extend("keep", {
+			-- other stuff
+			background_colour = "#000000",
+		}, opts))
+	end,
 }
