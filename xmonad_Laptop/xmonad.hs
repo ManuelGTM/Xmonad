@@ -67,8 +67,8 @@ myeditor = "nvim" -- my editor
 
 -- Border colors for unfocused and focused windows, respectively.
 -- myNormalBorderColor  = "#a153e1"
--- myFocusedBorderColor = "#cd7f32"
-myNormalBorderColor  = "#483248"
+--myFocusedBorderColor = "#C21e56"
+myNormalBorderColor  = "#9399b2"
 myFocusedBorderColor = "#C21e56"
 
 windowCount :: X (Maybe String)
@@ -78,8 +78,9 @@ windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace
 -- My Workspaces --
 
 myWorkspaces :: [String]
-myWorkspaces = [" dev", " www", " sys", " doc", " vbox", " chat", " mus", " vid", " gfx"]
-
+-- myWorkspaces = ["<fn=2>\xebc9</fn> ", " <fn=2>\xf059f</fn> ", " <fn=2>\xf0e7b</fn> ", " <fn=2>\xf01ee</fn> ", " <fn=2>\xf02a2</fn> ", " <fn=2>\xe606</fn> ", " <fn=2>\xe5fb</fn> ", " <fn=2>\xf489</fn> ", " <fn=2>\xebc8</fn> "]
+-- myWorkspaces = ["今", "手", " 聴", " れ", " 効", "こ", "何", "グ", "音"]
+myWorkspaces = [" \xf0ca0" ," \xf0ca2", " \xf0ca4", " \xf0ca6", " \xf0ca8", " \xf0caa", " \xf0cac", " \xf0cae", " \xf0cb0"]
 ------------------------------------------------------------------------
 -- Named Actions --
 
@@ -123,10 +124,9 @@ myKeys c =
 
      -- Applications Keybindings
     ,("M-b",   addName "launch browser"  $ spawn "firefox" >> spawn "mpv --no-video ~/.config/sounds/M_UI_0000001B.flac")                                -- launch browser
-    ,("M-p",   addName "launch rofi"     $ spawn "rofi -show run" >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000038.flac")                         -- launch rofi
-    ,("M-S-o", addName "launch obsidian"     $ spawn "flatpak run md.obsidian.Obsidian" >> spawn "mpv --no-video ~/.config/sounds/M_UI_0000001B.flac")   -- launch obsidian
+    ,("M-p",   addName "launch rofi"     $ spawn "rofi -show drun" >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000038.flac")                         -- launch rofi
+    ,("M-S-o", addName "launch obsidian"     $ spawn "obsidian" >> spawn "mpv --no-video ~/.config/sounds/M_UI_0000001B.flac")   -- launch obsidian
     ,("M-S-i", addName "launch postman"     $ spawn (myTerminal ++ " -e ./Postman.sh") >> spawn "mpv --no-video ~/.config/sounds/M_UI_0000001B.flac")    -- launch Postman
-    ,("M-S-d", addName "launch nvim"    $ spawn (myTerminal ++ " -e nvim") >> spawn "mpv --no-video ~/.config/sounds/M_UI_0000001B.flac")                --launch nvim
     ,("M-d",   addName "launch emacs"    $ spawn "emacs" >> spawn "mpv --no-video ~/.config/sounds/M_UI_0000001B.flac")                                  --launch emacs
 
       --Multimedia keybindings
@@ -134,8 +134,8 @@ myKeys c =
     , ("M-S-l",  addName "Unmute the audio"  $ spawn "pamixer --unmute")  -- unmute volume
     , ("M-S-u",  addName "Low the volume"    $ spawn "amixer -D pulse sset Master 5%-" >> spawn "mpv --no-video ~/.config/sounds/M_UI_00000038.flac")  -- Lower volume 
     , ("M-u",    addName "Raise the volume"  $ spawn "amixer -D pulse sset Master 5%+">> spawn "mpv --no-video ~/.config/sounds/M_UI_00000038.flac")   -- Raise volume 
-    , ("M-i",    addName "Raise the bright"  $ spawn "lux -a 5%">> spawn "mpv --no-video ~/.config/sounds/M_UI_00000038.flac") -- Raise bright 
-    , ("M-o",    addName "Lower the bright"  $ spawn "lux -s 5%">> spawn "mpv --no-video ~/.config/sounds/M_UI_00000038.flac")  -- Lower bright 
+    , ("M-i",    addName "Raise the bright"  $ spawn "brightnessctl set +5%">> spawn "mpv --no-video ~/.config/sounds/M_UI_00000038.flac") -- Raise bright 
+    , ("M-o",    addName "Lower the bright"  $ spawn "brightnessctl set 5%-">> spawn "mpv --no-video ~/.config/sounds/M_UI_00000038.flac")  -- Lower bright 
 
       -- Windows keybindings
     ,("M-q",        addName "kill focused windows"                        $ spawn "mpv --no-video ~/.config/sounds/M_UI_0000000E.flac" >> kill)                                 -- kill focused windows
@@ -196,14 +196,14 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 -- Themes for showWname wich prints current workspace when you chnaeg workspaces --
 
 
-myShowWNameTheme :: SWNConfig
-myShowWNameTheme = def
-    { swn_font              = "xft:Sans:bold:size=60"
-    , swn_fade              = 1.0
-    , swn_bgcolor           = "#000000"
-    , swn_color             = "#FFFFFF"
-    }
---------------------------------------------------------------------------------------
+-- myShowWNameTheme :: SWNConfig
+-- myShowWNameTheme = def
+--     { swn_font              = "xft:Sans:bold:size=60"
+--     , swn_fade              = 1.0
+--     , swn_bgcolor           = "#000000"
+--     , swn_color             = "#FFFFFF"
+--     }
+-- --------------------------------------------------------------------------------------
 -- My layouts --
 
 myLayout = spacingWithEdge 6 $ avoidStruts (tiled ||| Mirror tiled ||| Full)
@@ -260,18 +260,18 @@ main = do
         , modMask            = myModMask
         , terminal           = myTerminal
         , startupHook        = myStartupHook
-        , layoutHook         = minimize . BW.boringWindows $ showWName' myShowWNameTheme myLayout                                        
+        , layoutHook         = minimize . BW.boringWindows $ {--showWName' myShowWNameTheme--} myLayout                                        
         , workspaces         = myWorkspaces
         , borderWidth        = myBorderWidth
         , normalBorderColor  = myNormalBorderColor                                                         
         , focusedBorderColor = myFocusedBorderColor
         , logHook = workspaceHistoryHook <+> myLogHook <+> dynamicLogWithPP xmobarPP
                         { ppOutput = \x -> hPutStrLn xmproc x
-                        ,ppCurrent = xmobarColor "#7cfc00" "" . wrap "["  " ]" -- Current workspace in xmobar
+                        ,ppCurrent = xmobarColor "#fab387" "" . wrap ""  "" -- Current workspace in xmobar
                         , ppVisible = xmobarColor "#ffbf00" ""                -- Visible but not current workspace
-                        , ppHidden = xmobarColor "#32cd32" "" . wrap "*" "_"   -- Hidden workspaces in xmobar
-                        , ppHiddenNoWindows = xmobarColor "#4f7942" ""        -- Hidden workspaces (no windows)
-                        , ppTitle = xmobarColor "#d0d0d0" "" . shorten 60     -- Title of active window in xmobar
+                        , ppHidden = xmobarColor "#cdd6f4" "" . wrap "" ""   -- Hidden workspaces in xmobar
+                        , ppHiddenNoWindows = xmobarColor "#585b70" ""        -- Hidden workspaces (no windows)
+                        , ppTitle = xmobarColor "#89b4fa" "" . shorten 74     -- Title of active window in xmobar
                         , ppSep =  "<fc=#7393b3>  | </fc> "                     -- Separators in xmobar
                         , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"  -- Urgent workspace
                         , ppExtras  = [windowCount]   

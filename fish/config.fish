@@ -12,15 +12,15 @@ if status is-interactive
     #--------------------------------------------------------
 
    # TokyoNight Color Palette
-    set -l foreground c0caf5
-    set -l selection 283457
+    set -l foreground cdd6f4
+    set -l selection f5e0dc
     set -l comment 565f89
-    set -l red f7768e
-    set -l orange ff9e64
-    set -l yellow e0af68
-    set -l green 9ece6a
-    set -l purple 9d7cd8
-    set -l cyan 7dcfff
+    set -l red f38ba8
+    set -l orange fab387
+    set -l yellow f9e2af
+    set -l green a6e3a1
+    set -l purple b4befe
+    set -l cyan 94e2d5
     set -l pink bb9af7
 
 
@@ -28,7 +28,7 @@ if status is-interactive
     set -g fish_color_normal $foreground
     set -g fish_color_command $cyan
     set -g fish_color_keyword $pink
-    set -g fish_color_quote $yellow
+    set -g fish_color_quote $orange
     set -g fish_color_redirection $green
     set -g fish_color_end $orange
     set -g fish_color_error $red
@@ -56,23 +56,26 @@ if status is-interactive
     # Sashimi prompt
     function fish_prompt
       set -l last_status $status
-      set -l cyan (set_color -o 7DF9FF)
+      set -l cyan (set_color -o 94e2d5)
       set -l yellow (set_color -o e0af68)
-      set -l Orange (set_color -o ff9e64)
-      set -g red (set_color -o f7768e)
+      set -l Orange (set_color -o fab387)
+      set -g red (set_color -o f38ba8)
       set -g Bred (set_color -o f77a93)
-      set -g blue (set_color -o 008080)
-      set -l green (set_color -o b9f27c)
+      set -g blue (set_color -o 89b4fa)
+      set -l green (set_color -o a6e3a1)
       set -l purple (set_color -o 9d7cd8)
-      set -l magenta (set_color -o bb9af7)
-      set -l white (set_color -o ffffff)
-      set -g normal (set_color -o acb0d0) 
+      set -l magenta (set_color -o f5c2e7)
+      set -l white (set_color -o bac2de)
+      set -l gray (set_color -o E5E4E2)
+      set -g normal (set_color -o bac2de) 
 
       set -l ahead (_git_ahead)
       set -g whitespace ' '
 
       if test $last_status = 0 
-        set initial_indicator "$green◆$magenta  "
+        set initial_indicator "$green◆ $magenta "
+        # set initial_indicator "$white診本改善忍躾 $magenta "
+        # set initial_indicator "$green◆$magenta $blue 本"
         set status_indicator "$purple❯$Orange❯$cyan❯"
       else
         set initial_indicator "$red✖ $last_status"
@@ -87,7 +90,7 @@ if status is-interactive
           set git_info "$green git:($red$git_branch$green)"
         else
           set -l git_branch (_git_branch_name)
-          set git_info "$green git:($magenta$git_branch$green)"
+          set git_info "$green git:($red$git_branch$green)"
         end
 
         if [ (_is_git_dirty) ]
@@ -163,7 +166,7 @@ if status is-interactive
     abbr gc "gcc .c -o .out" # Compile C language
     abbr ls "exa"
     abbr ll "exa -alh"
-    abbr tree "exa -tree"
+    abbr tree "exa --tree"
     abbr cd "z"
     abbr cat "bat"
 
