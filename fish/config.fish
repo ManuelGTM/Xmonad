@@ -169,14 +169,13 @@ if status is-interactive
     abbr tree "exa --tree"
     abbr cd "z"
     abbr cat "bat"
+    abbr kbd "suda ./Kmonad.sh"
 
     #--------------------------------------------------------
     #Application startup abbreviations
     #--------------------------------------------------------
 
     abbr music "z /run/media/manueltgtm/Music"
-    abbr calendar "khal calendar"
-    abbr office "onlyoffice"
     abbr postgres "sudo psql -U  -d  -h 127.0.0.1"
 
     #--------------------------------------------------------
