@@ -1,28 +1,19 @@
-if status is-interactive
-   
-    #--------------------------------------------------------
-    # Commands to run in interactive sessions can go here
-    #--------------------------------------------------------
-
-    set fish_greeting
-
     #--------------------------------------------------------
     # Themes and fonts colors
     #--------------------------------------------------------
 
-
-
    # TokyoNight Color Palette
-    set -l foreground cdd6f4
-    set -l selection f5e0dc
+    set -l foreground c0caf5
+    set -l selection 283457
     set -l comment 565f89
-    set -l red f38ba8
-    set -l orange fab387
-    set -l yellow f9e2af
-    set -l green a6e3a1
-    set -l purple b4befe
-    set -l cyan 94e2d5
+    set -l red f7768e
+    set -l orange ff9e64
+    set -l yellow e0af68
+    set -l green 9ece6a
+    set -l purple 9d7cd8
+    set -l cyan 7dcfff
     set -l pink bb9af7
+
 
     # Syntax Highlighting Colors
     set -g fish_color_normal $foreground
@@ -49,26 +40,20 @@ if status is-interactive
     set -g fish_pager_color_description $comment
     set -g fish_pager_color_selected_background --background=$selection
 
-    #--------------------------------------------------------
-    # Shasimi prompt integration
-    #--------------------------------------------------------
-
-    # Sashimi prompt
+   # Sashimi prompt
     function fish_prompt
       set -l last_status $status
-      set -l cyan (set_color -o 94e2d5)
+      set -l cyan (set_color -o 7DF9FF)
       set -l yellow (set_color -o e0af68)
-      set -l Orange (set_color -o fab387)
-      set -g red (set_color -o f38ba8)
+      set -l Orange (set_color -o ff9e64)
+      set -g red (set_color -o f7768e)
       set -g Bred (set_color -o f77a93)
-      set -g blue (set_color -o 89b4fa)
-      set -l green (set_color -o a6e3a1)
+      set -g blue (set_color -o 008080)
+      set -l green (set_color -o b9f27c)
       set -l purple (set_color -o 9d7cd8)
-      set -l magenta (set_color -o f5c2e7)
-      set -l white (set_color -o bac2de)
-      set -l gray (set_color -o E5E4E2)
-      set -g normal (set_color -o bac2de) 
-
+      set -l magenta (set_color -o bb9af7)
+      set -l white (set_color -o ffffff)
+      set -g normal (set_color -o acb0d0) 
 
       set -l ahead (_git_ahead)
       set -g whitespace ' '
@@ -134,87 +119,3 @@ if status is-interactive
       echo (command git status -s --ignore-submodules=dirty 2>/dev/null)
     end
     
-    #end prompt
-   
-    #--------------------------------------------------------
-    # Vim Functionality 
-    #--------------------------------------------------------
-
-    #function to set vim keybindings
-    function fish_user_key_bindings
-        fish_vi_key_bindings
-    end
-    #end vim keybindings
-
- 
-    #--------------------------------------------------------
-    # System abbreviations
-    #--------------------------------------------------------
-
-    abbr Si "paru -S" # Install software
-    abbr Sr "sudo pacman -R"   # Uninstall some software 
-    abbr Su "sudo pacman -Syu"  # Upgrade the system
-    abbr Sd "sudo shutdown now" # Shutdown now
-
-    #--------------------------------------------------------
-    # Useful command abbreviations
-    #--------------------------------------------------------
-
-    abbr cd "z"
-    abbr ls "exa"
-    abbr ll "exa -alh"
-    abbr cat "bat"
-    abbr tree "exa --tree"
-    abbr tmn "tmux new -s"  # Create a new session tmux
-    abbr tma "tmux attach -t" # Attach to a session tmux
-    abbr gc "gcc .c -o .out" # Compile C language
-<<<<<<< HEAD
-    abbr ls "exa"
-    abbr ll "exa -alh"
-    abbr tree "exa --tree"
-    abbr cd "z"
-    abbr cat "bat"
-    abbr kbd "suda ./Kmonad.sh"
-=======
->>>>>>> d56ef223da2eec971f2bbfc1ee56e75c45dea11d
-
-    #--------------------------------------------------------
-    #Application startup abbreviations
-    #--------------------------------------------------------
-
-    abbr music "z /run/media/manueltgtm/Music"
-<<<<<<< HEAD
-    abbr postgres "sudo psql -U  -d  -h 127.0.0.1"
-=======
-    abbr calendar "khal calendar"
-    abbr office "onlyoffice"
-    abbr post "sudo psql -U mt -d postgres -h 127.0.0.1"
->>>>>>> d56ef223da2eec971f2bbfc1ee56e75c45dea11d
-
-    #--------------------------------------------------------
-    # Functionality Tweaks
-    #--------------------------------------------------------
-
-    # Yazi 
-    function ya
-	set tmp (mktemp -t "yazi-cwd.XXXXX")
-	yazi $argv --cwd-file="$tmp"
-	if set cwd (cat -- "$tmp"); and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
-		cd -- "$cwd"
-	end
-	rm -f -- "$tmp"
-end
-
-    # ~/.tmux/plugins
-    fish_add_path $HOME/.tmux/plugins/t-smart-tmux-session-manager/bin
-
-    # Activates Neofetch
-    #neofetch
-
-    #zoxide
-    zoxide init fish | source
-
-
-
-
-end

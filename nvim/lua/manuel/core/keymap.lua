@@ -15,6 +15,11 @@ keymap.set("n", "<leader>fx", ":!chmod +x %<CR>")
 -- Web Dev
 keymap.set("n", "<leader>fi", ":!firefox %<CR>")
 
+--Compiling Programs
+
+keymap.set("n", "<leader>ts", ":w<CR> :!tsc % <CR>")
+keymap.set("n", "<leader>gcc", ":!gcc % -o %< && ./%< <CR>")
+
 -- visual keybindings
 
 keymap.set("v", "N", ":m '>+1<CR>gv=gv")
@@ -32,3 +37,7 @@ keymap.set("n", "<leader>dd", ":DBUIToggle<cr>")
 
 --Lazy Nvim
 keymap.set("n", "<leader>f", ":Lazy<cr>") -- find files within current working directory, respects .gitignore
+
+-- Oil Nvim
+
+vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })

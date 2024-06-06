@@ -41,8 +41,14 @@ import XMonad.Layout.Spacing
 import XMonad.Layout.ShowWName
 import XMonad.Layout.Minimize
 import qualified XMonad.Layout.BoringWindows as BW 
+import XMonad.Layout.NoBorders (noBorders, smartBorders)
+import XMonad.Layout.Fullscreen (fullscreenFull, fullscreenSupport)
+import XMonad.Layout.Grid (Grid(..))
+import XMonad.Layout.TwoPane (TwoPane(..))
+import XMonad.Layout.Tabbed (simpleTabbed)
 
 -- Data --
+
 import qualified Data.Map as M
 import Data.Monoid
 import qualified XMonad.StackSet as W
@@ -75,7 +81,7 @@ myeditor = "nvim" -- my editor
 -- Border colors for unfocused and focused windows, respectively.
 -- myNormalBorderColor  = "#a153e1"
 -- myNormalBorderColor  = "#cd7f32"
-myNormalBorderColor  = "#483248"
+myNormalBorderColor  = "#9399b2"
 myFocusedBorderColor = "#C21e56"
 
 windowCount :: X (Maybe String)
@@ -85,10 +91,8 @@ windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace
 -- My Workspaces --
 
 myWorkspaces :: [String]
--- myWorkspaces = [" dev ", " www ", " sys ", " docs ", " vbox ", " chat ", " mus ", " vid ", " gfx "]
--- myWorkspaces = [" ス ", " 二 ", " 三 ", " シ", " 五 ", " フ ", " ン ", "八 ", " 九"]
-myWorkspaces = [" \xe61f ", " \xe658 ", " \xf489 ", " \xe5fb ", " \xe606 ", " \xe65d ", " \xe64d ", " \xf31b ", " \xf0e7b "]
-
+-- myWorkspaces = [" \xe61f ", " \xe658 ", " \xf489 ", " \xe5fb ", " \xe606 ", " \xe65d ", " \xe64d ", " \xf31b ", " \xf0e7b "]
+myWorkspaces = [" \xf0ca0" ," \xf0ca2", " \xf0ca4", " \xf0ca6", " \xf0ca8", " \xf0caa", " \xf0cac", " \xf0cae", " \xf0cb0 "]
 
 ------------------------------------------------------------------------
 -- Named Actions --
@@ -134,7 +138,7 @@ myKeys c =
      -- Applications Keybindings
     ,("M-b",  addName "launch browser"  $ spawn "firefox" >> spawn "mpv --no-video ~/.config/sounds/M_UI_0000001B.flac")           -- launch browser
 
-    ,("M-o",  addName "launch spotify"  $ spawn "spotify-launcher" >> spawn "mpv --no-video ~/.config/sounds/M_UI_0000001B.flac")           -- launch spotify-launcher
+    -- ,("M-o",  addName "launch spotify"  $ spawn "spotify" >> spawn "mpv --no-video ~/.config/sounds/M_UI_0000001B.flac")           -- launch spotify-launcher
     ,("M-S-o",  addName "launch obsidian"  $ spawn "obsidian" >> spawn "mpv --no-video ~/.config/sounds/M_UI_0000001B.flac")           -- launch spotify-launcher
     ,("M-S-i",  addName "launch postman"  $ spawn (myTerminal ++ " -e postman") >> spawn "mpv --no-video ~/.config/sounds/M_UI_0000001B.flac")           -- launch spotify-launcher
     ,("M-S-p",  addName "Make ScreenShot"  $ spawn (myTerminal ++ " -e scrot ~/ScreenShots/") >> spawn "mpv --no-video ~/.config/sounds/M_UI_0000001B.flac")           -- launch spotify-launcher
@@ -215,19 +219,22 @@ myShowWNameTheme = def
 --------------------------------------------------------------------------------------
 -- My layouts --
 
-myLayout = spacingWithEdge 6 $ avoidStruts (tiled ||| Mirror tiled ||| Full)
-  where
-     -- default tiling algorithm partitions the screen into two panes
-     tiled   = Tall nmaster delta ratio
+myLayout = spacingWithEdge 6 $ avoidStruts $ 
 
-     -- The default number of windows in the master pane
-     nmaster = 1
+    tiled ||| Mirror tiled ||| Full ||| Grid  
 
-     -- Default proportion of screen occupied by master pane
-     ratio   = 1/2
+        where
+         -- default tiling algorithm partitions the screen into two panes
+         tiled   = Tall nmaster delta ratio
 
-     -- Percent of screen to increment by when resizing panes
-     delta   = 3/100
+         -- The default number of windows in the master pane
+         nmaster = 1
+
+         -- Default proportion of screen occupied by master pane
+         ratio   = 1/2
+
+         -- Percent of screen to increment by when resizing panes
+         delta   = 3/100
 
 --------------------------------------------------------------------------------------
 -- Window Rules --
@@ -271,22 +278,22 @@ main = do
         , modMask            = myModMask
         , terminal           = myTerminal
         , startupHook        = myStartupHook
-        , layoutHook         = minimize . BW.boringWindows  $ showWName' myShowWNameTheme $ myLayout                                        
+        , layoutHook         = minimize . BW.boringWindows $ myLayout                                        
         , workspaces         = myWorkspaces
         , borderWidth        = myBorderWidth
         , normalBorderColor  = myNormalBorderColor                                                         
         , focusedBorderColor = myFocusedBorderColor
         , logHook = workspaceHistoryHook <+> myLogHook <+> dynamicLogWithPP xmobarPP
-                        { ppOutput = \x -> hPutStrLn xmproc x
-                        ,ppCurrent = xmobarColor "#7CFC00" "" . wrap ""  "" -- Current workspace in xmobar
+                      { ppOutput = \x -> hPutStrLn xmproc x
+                        ,ppCurrent = xmobarColor "#fab387" "" . wrap ""  "" -- Current workspace in xmobar
                         , ppVisible = xmobarColor "#ffbf00" ""                -- Visible but not current workspace
-                        , ppHidden = xmobarColor "#32CD32" "" . wrap "*" ""   -- Hidden workspaces in xmobar
-                        , ppHiddenNoWindows = xmobarColor "#4F7942" ""        -- Hidden workspaces (no windows)
-                        , ppTitle = xmobarColor "#d0d0d0" "" . shorten 60     -- Title of active window in xmobar
-                        , ppSep =  "<fc=#7393b3> || </fc> "                     -- Separators in xmobar
+                        , ppHidden = xmobarColor "#cdd6f4" "" . wrap "" ""   -- Hidden workspaces in xmobar
+                        , ppHiddenNoWindows = xmobarColor "#585b70" ""        -- Hidden workspaces (no windows)
+                        , ppTitle = xmobarColor "#89b4fa" "" . shorten 74     -- Title of active window in xmobar
+                        , ppSep =  "<fc=#7393b3>  | </fc> "                     -- Separators in xmobar
                         , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"  -- Urgent workspace
                         , ppExtras  = [windowCount]   
                         , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
-                         }
+                        }
         } 
  
