@@ -10,8 +10,6 @@ if status is-interactive
     # Themes and fonts colors
     #--------------------------------------------------------
 
-
-
    # TokyoNight Color Palette
     set -l foreground cdd6f4
     set -l selection f5e0dc
@@ -168,28 +166,25 @@ if status is-interactive
     abbr tmn "tmux new -s"  # Create a new session tmux
     abbr tma "tmux attach -t" # Attach to a session tmux
     abbr gc "gcc .c -o .out" # Compile C language
-<<<<<<< HEAD
+
     abbr ls "exa"
     abbr ll "exa -alh"
     abbr tree "exa --tree"
     abbr cd "z"
     abbr cat "bat"
     abbr kbd "suda ./Kmonad.sh"
-=======
->>>>>>> d56ef223da2eec971f2bbfc1ee56e75c45dea11d
 
     #--------------------------------------------------------
     #Application startup abbreviations
     #--------------------------------------------------------
 
     abbr music "z /run/media/manueltgtm/Music"
-<<<<<<< HEAD
     abbr postgres "sudo psql -U  -d  -h 127.0.0.1"
-=======
+    
     abbr calendar "khal calendar"
     abbr office "onlyoffice"
     abbr post "sudo psql -U mt -d postgres -h 127.0.0.1"
->>>>>>> d56ef223da2eec971f2bbfc1ee56e75c45dea11d
+
 
     #--------------------------------------------------------
     # Functionality Tweaks
@@ -203,7 +198,7 @@ if status is-interactive
 		cd -- "$cwd"
 	end
 	rm -f -- "$tmp"
-end
+	end
 
     # ~/.tmux/plugins
     fish_add_path $HOME/.tmux/plugins/t-smart-tmux-session-manager/bin
@@ -214,7 +209,5 @@ end
     #zoxide
     zoxide init fish | source
 
-
-
-
 end
+
