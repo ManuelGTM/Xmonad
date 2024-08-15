@@ -7,6 +7,11 @@ type person struct {
 	data int
 }
 
+type node struct {
+	new  string
+	node int
+}
+
 func main() {
 
 	person1 := person{name: "Manuel", data: 1}
