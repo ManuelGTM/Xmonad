@@ -13,7 +13,8 @@ Config { font            = "Ubuntu Bold 10.5"
        , hideOnStart  = False
        , allDesktops  = True
        , persistent   = True
-       , iconRoot     = "/home/Mt/.xmonad/xpm/"  -- default: "."
+       --, iconRoot     = "/home/Mt/.xmonad/xpm/"  -- default: "."
+       --, iconRoot     = "/home/manuelgtm/.xmonad/xpm/"  -- default: "."
        , commands = [
                         -- Echos a "messages" icon in front of the notify-log output.
                       Run Com "echo" ["<fn=3>\xf099</fn>"] "messages" 3600
